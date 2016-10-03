@@ -11,7 +11,7 @@
  *      ));
  *
  * @link    https://github.com/DevDiamondCom/WP_GravatarCache
- * @version 1.0.0
+ * @version 1.0.1
  * @author  DevDiamond <me@devdiamond.com>
  */
 class WP_GravatarCache
@@ -30,16 +30,14 @@ class WP_GravatarCache
 	/**
 	 * WP_GravatarCache constructor.
 	 *
-	 * @param array $args - defoult param {'ttl_day' => 10, 'ttl_hour' => 0, 'ttl_min' => 0}
+	 * @param array $args     - defoult param {'ttl_day' => 10, 'ttl_hour' => 0, 'ttl_min' => 0}
+	 * @param int   $priority - Priority get_avatar Hook
 	 */
-    function __construct( $args = array() )
+    function __construct( $args = array(), $priority = 1000000000 )
     {
 	    $this->default_options['ttl_day'] = (int) (@$args['ttl_day'] ?: 10);
 	    $this->default_options['ttl_hour'] = (int) (@$args['ttl_hour'] ?: 0);
 	    $this->default_options['ttl_min'] = (int) (@$args['ttl_min'] ?: 0);
-
-	    add_filter( 'get_avatar', array( $this, 'get_cached_avatar' ), -1000000000, 5 );
-	    add_action( 'admin_notices', array( $this, 'admin_help_notice' ) );
 
 	    if ( get_option( 'upload_url_path' ) )
         {
@@ -57,6 +55,9 @@ class WP_GravatarCache
 	        $this->add_message( 'error', 'Please set write permissions for "'. $this->upload_path . $this->upload_folder .'"' );
         elseif ( @!mkdir( $this->upload_path . $this->upload_folder, 0777 ) && ! is_dir( $this->upload_path . $this->upload_folder ) )
             $this->add_message( 'error', 'Could not create directory "gravatar". Please set write permissions for "'. $this->upload_path . $this->upload_folder .'"'  );
+
+	    add_filter( 'get_avatar', array( $this, 'get_cached_avatar' ), (int) $priority, 5 );
+	    add_action( 'admin_notices', array( $this, 'admin_help_notice' ) );
     }
 
     /**
