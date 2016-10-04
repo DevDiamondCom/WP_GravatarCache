@@ -14,7 +14,7 @@
  *      );
  *
  * @link    https://github.com/DevDiamondCom/WP_GravatarCache
- * @version 1.0.2
+ * @version 1.0.3
  * @author  DevDiamond <me@devdiamond.com>
  */
 class WP_GravatarCache
@@ -26,6 +26,7 @@ class WP_GravatarCache
 	private $default_options;
     private $upload_url;
     private $upload_path;
+	private $siteurl;
 
 	private $_messages = array();
 	private $_allowed_message_types = array('info', 'warning', 'error');
@@ -41,6 +42,8 @@ class WP_GravatarCache
 	    $this->default_options['ttl_day'] = (int) (@$args['ttl_day'] ?: 10);
 	    $this->default_options['ttl_hour'] = (int) (@$args['ttl_hour'] ?: 0);
 	    $this->default_options['ttl_min'] = (int) (@$args['ttl_min'] ?: 0);
+
+	    $this->siteurl = (string) get_option('siteurl');
 
 	    if ( get_option( 'upload_url_path' ) )
         {
@@ -147,6 +150,9 @@ class WP_GravatarCache
     {
         if ( ! is_writable( $this->upload_path . $this->upload_folder ) || is_admin() )
             return $source;
+
+	    if ( $this->siteurl && strpos( $source, $this->siteurl, 0 ) !== false )
+	    	return $source;
 
 	    $time = $this->cache_to_second();
 
