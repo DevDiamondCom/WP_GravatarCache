@@ -4,14 +4,17 @@
  * Class WP_GravatarCache
  *
  *      global $wpgc;
- *      $wpgc = new WP_GravatarCache(array(
- *          'ttl_day'  => 10
- *          'ttl_hour' => 0
- *          'ttl_min'  => 0
- *      ));
+ *      $wpgc = new WP_GravatarCache(
+ *          array(
+ *              'ttl_day'  => 10
+ *              'ttl_hour' => 0
+ *              'ttl_min'  => 0
+ *          ),
+ *          $priority = 1000000000
+ *      );
  *
  * @link    https://github.com/DevDiamondCom/WP_GravatarCache
- * @version 1.0.1
+ * @version 1.0.2
  * @author  DevDiamond <me@devdiamond.com>
  */
 class WP_GravatarCache
@@ -132,11 +135,11 @@ class WP_GravatarCache
 	/**
 	 * Get Cached Avatar
 	 *
-	 * @param $source
-	 * @param $id_or_email
-	 * @param $size
-	 * @param $default
-	 * @param $alt
+	 * @param string     $source       - Gravatar URL
+	 * @param int|string $id_or_email  - User ID or Email
+	 * @param int        $size         - Icon size
+	 * @param string     $default      - Default
+	 * @param string     $alt          - alt attribute
 	 *
 	 * @return string - HTML IMG
 	 */
@@ -284,7 +287,7 @@ class WP_GravatarCache
                 closedir( $opendir );
             }
         }
-   }
+	}
 
 	/**
 	 * Get Cache Info
