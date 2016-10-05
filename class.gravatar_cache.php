@@ -6,15 +6,15 @@
  *      global $wpgc;
  *      $wpgc = new WP_GravatarCache(
  *          array(
- *              'ttl_day'  => 10
- *              'ttl_hour' => 0
- *              'ttl_min'  => 0
+ *              'ttl_day'  => 10,
+ *              'ttl_hour' => 0,
+ *              'ttl_min'  => 0,
  *          ),
  *          $priority = 1000000000
  *      );
  *
  * @link    https://github.com/DevDiamondCom/WP_GravatarCache
- * @version 1.0.3
+ * @version 1.0.3.2
  * @author  DevDiamond <me@devdiamond.com>
  */
 class WP_GravatarCache
